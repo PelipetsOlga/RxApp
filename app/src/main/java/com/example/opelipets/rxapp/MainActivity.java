@@ -1,5 +1,6 @@
 package com.example.opelipets.rxapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button btnDo = (Button) findViewById(R.id.btn_do_smth);
-        btnDo.setOnClickListener(v -> Toast.makeText(MainActivity.this, "button was pressed", Toast.LENGTH_SHORT).show());
+        btnDo.setOnClickListener(v -> openMultiThreadExample());
+    }
+
+    private void openMultiThreadExample() {
+        startActivity(new Intent(MainActivity.this, MultiThreadActivity.class));
     }
 }
