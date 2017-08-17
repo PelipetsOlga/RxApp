@@ -22,13 +22,14 @@ public class UIActivity extends AppCompatActivity {
     Observable<String> emailEmitter;
     CompositeDisposable compositeDisposable;
     ActivityUiBinding binding;
+    ScreenModel screenModel;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_ui);
-        ScreenModel screenModel = new ScreenModel();
+        screenModel = new ScreenModel();
         binding.setModel(screenModel);
 
         nameEmitter = getTextWatcherObservable(binding.nameInput);
@@ -42,30 +43,30 @@ public class UIActivity extends AppCompatActivity {
         compositeDisposable = new CompositeDisposable();
         compositeDisposable.add(nameEmitter.subscribe(name -> doNameValidation(name)));
         compositeDisposable.add(emailEmitter.subscribe(email -> doEmailValidation(email)));
-        Observable<Boolean> btnStateEmitter= Observable.combineLatest(nameEmitter,emailEmitter,
-                (x, y)->isValidName(x)&&isValidEmail(y));
+        Observable<Boolean> btnStateEmitter = Observable.combineLatest(nameEmitter, emailEmitter,
+                (x, y) -> isValidName(x) && isValidEmail(y));
         compositeDisposable.add(btnStateEmitter.map(bool -> setButtonEnable(bool)).subscribe());
     }
 
-    private boolean setButtonEnable(boolean bool){
-        binding.btnOk.setEnabled(bool);
+    private boolean setButtonEnable(boolean bool) {
+        screenModel.btnEnabled.set(bool);
         return bool;
     }
 
     private void doNameValidation(String name) {
-        if (isValidName(name))binding.nameInput.setError("Name shouldn't be empty");
+        if (!isValidName(name)) binding.nameInput.setError("Name shouldn't be empty");
     }
 
     private boolean isValidName(String name) {
-        return TextUtils.isEmpty(name);
+        return !TextUtils.isEmpty(name);
     }
 
     private boolean isValidEmail(String email) {
-        return TextUtils.isEmpty(email);
+        return !TextUtils.isEmpty(email) && email.contains("@") && email.contains(".");
     }
 
     private void doEmailValidation(String email) {
-        if (isValidEmail(email))binding.emailInput.setError("Email shouldn't be empty");
+        if (!isValidEmail(email)) binding.emailInput.setError("Email shouldn't be empty");
     }
 
     @Override
