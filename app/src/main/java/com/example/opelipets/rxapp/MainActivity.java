@@ -15,9 +15,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         findViewById(R.id.btn_multithreading).setOnClickListener(v -> openMultiThreadExample());
+        findViewById(R.id.btn_ui).setOnClickListener(v -> openUIExample());
     }
 
     private void openMultiThreadExample() {
         startActivity(new Intent(MainActivity.this, MultiThreadActivity.class));
+    }
+
+    private void openUIExample() {
+        startActivity(new Intent(MainActivity.this, UIActivity.class));
     }
 }
