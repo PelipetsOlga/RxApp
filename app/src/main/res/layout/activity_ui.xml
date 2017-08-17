@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Name"
-                android:text="@={model.name}"/>
+                android:text="@={model.name}" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -38,23 +38,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email"
-                android:text="@={model.email}"/>
+                android:text="@={model.email}" />
 
         </android.support.design.widget.TextInputLayout>
+
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/rb_male"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@={model.isMan}"
+                android:text="Male" />
+
+            <RadioButton
+                android:id="@+id/rb_female"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@={!model.isMan}"
+                android:text="Female" />
+        </RadioGroup>
 
         <Button
             android:id="@+id/btn_ok"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Do something"
-            android:enabled="@{model.btnEnabled}"/>
+            android:enabled="@{model.btnEnabled}"
+            android:text="Do something" />
 
         <TextView
             android:id="@+id/tv"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="@{model.result}"/>
+            android:text="@{model.result}" />
 
     </LinearLayout>
 </layout>

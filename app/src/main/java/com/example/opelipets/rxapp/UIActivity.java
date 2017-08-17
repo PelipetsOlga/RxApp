@@ -2,6 +2,7 @@ package com.example.opelipets.rxapp;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 
 import com.example.opelipets.rxapp.databinding.ActivityUiBinding;
 
@@ -25,6 +27,7 @@ public class UIActivity extends AppCompatActivity {
 
     Observable<String> nameEmitter;
     Observable<String> emailEmitter;
+    Observable<Boolean> sexEmitter;
     CompositeDisposable compositeDisposable;
     ActivityUiBinding binding;
     ScreenModel screenModel;
@@ -39,6 +42,7 @@ public class UIActivity extends AppCompatActivity {
 
         nameEmitter = getTextWatcherObservable(binding.nameInput);
         emailEmitter = getTextWatcherObservable(binding.emailInput);
+        sexEmitter = getOnRadioGroupCheckedChangedObservable(binding.radioGroup);
 
     }
 
@@ -50,7 +54,8 @@ public class UIActivity extends AppCompatActivity {
                 Observable.combineLatest(nameEmitter,
                         emailEmitter
 //                                .debounce(500, TimeUnit.MILLISECONDS)// it's cause of CalledFromWrongThreadException
-                        , (x, y) -> doValidation(x, y))
+                        ,sexEmitter
+                        ,(x, y, bool) -> doValidation(x, y, bool))
                         .map(bool -> setButtonEnable(bool))
                         .filter(bool -> search(bool))
                         .subscribe());
@@ -61,7 +66,7 @@ public class UIActivity extends AppCompatActivity {
         return bool;
     }
 
-    private boolean doValidation(String name, String email) {
+    private boolean doValidation(String name, String email, Boolean bool) {
         return doNameValidation(name) & doEmailValidation(email);
     }
 
@@ -127,6 +132,21 @@ public class UIActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 subject.onNext(s.toString());
+            }
+        });
+
+        return subject;
+    }
+
+    public static Observable<Boolean> getOnRadioGroupCheckedChangedObservable(@NonNull final RadioGroup group) {
+
+        final PublishSubject<Boolean> subject = PublishSubject.create();
+
+        group.setOnCheckedChangeListener((group1, checkedId) -> {
+            if (checkedId == R.id.rb_male) {
+                subject.onNext(true);
+            } else if (checkedId == R.id.rb_female) {
+                subject.onNext(false);
             }
         });
 
