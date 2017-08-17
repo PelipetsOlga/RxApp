@@ -5,9 +5,9 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/btn_do_smth"
+        android:id="@+id/btn_multithreading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Do something" />
+        android:text="Multithreding" />
 
 </LinearLayout>

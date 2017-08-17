@@ -14,8 +14,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btnDo = (Button) findViewById(R.id.btn_do_smth);
-        btnDo.setOnClickListener(v -> openMultiThreadExample());
+        findViewById(R.id.btn_multithreading).setOnClickListener(v -> openMultiThreadExample());
     }
 
     private void openMultiThreadExample() {
