@@ -9,4 +9,10 @@ public class ScreenModel extends BaseObservable {
     public ObservableField<String> email = new ObservableField<>("");
     public ObservableField<String> result = new ObservableField<>("");
     public ObservableBoolean btnEnabled = new ObservableBoolean(false);
+
+    public String getRequest() {
+        return name.get()
+                +" : "
+                +email.get();
+    }
 }

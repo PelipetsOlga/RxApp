@@ -15,7 +15,10 @@ import com.example.opelipets.rxapp.databinding.ActivityUiBinding;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 
 public class UIActivity extends AppCompatActivity {
@@ -47,8 +50,9 @@ public class UIActivity extends AppCompatActivity {
                 Observable.combineLatest(nameEmitter,
                         emailEmitter
 //                                .debounce(500, TimeUnit.MILLISECONDS)// it's cause of CalledFromWrongThreadException
-                        ,(x, y) -> doValidation(x, y))
+                        , (x, y) -> doValidation(x, y))
                         .map(bool -> setButtonEnable(bool))
+                        .filter(bool -> search(bool))
                         .subscribe());
     }
 
@@ -79,6 +83,26 @@ public class UIActivity extends AppCompatActivity {
 
     private boolean isValidEmail(String email) {
         return !TextUtils.isEmpty(email) && email.contains("@") && email.contains(".");
+    }
+
+    private boolean search(boolean bool) {
+        if (bool) {
+            Observable.just(screenModel.getRequest())
+                    .subscribeOn(Schedulers.io())
+                    .map(s -> {
+                        Thread.sleep(1000);
+                        return "Request: " + s;
+                    })
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .map(s -> printResult(s))
+                    .subscribe();
+        }
+        return bool;
+    }
+
+    private String printResult(String result) {
+        screenModel.result.set(result);
+        return result;
     }
 
     @Override
