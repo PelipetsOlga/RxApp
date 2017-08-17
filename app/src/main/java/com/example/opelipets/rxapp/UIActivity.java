@@ -12,6 +12,8 @@ import android.widget.EditText;
 
 import com.example.opelipets.rxapp.databinding.ActivityUiBinding;
 
+import java.util.concurrent.TimeUnit;
+
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.subjects.PublishSubject;
@@ -41,11 +43,13 @@ public class UIActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         compositeDisposable = new CompositeDisposable();
-        compositeDisposable.add(nameEmitter.subscribe(name -> doNameValidation(name)));
-        compositeDisposable.add(emailEmitter.subscribe(email -> doEmailValidation(email)));
-        Observable<Boolean> btnStateEmitter = Observable.combineLatest(nameEmitter, emailEmitter,
-                (x, y) -> isValidName(x) && isValidEmail(y));
-        compositeDisposable.add(btnStateEmitter.map(bool -> setButtonEnable(bool)).subscribe());
+        compositeDisposable.add(
+                Observable.combineLatest(nameEmitter,
+                        emailEmitter
+//                                .debounce(500, TimeUnit.MILLISECONDS)// it's cause of CalledFromWrongThreadException
+                        ,(x, y) -> doValidation(x, y))
+                        .map(bool -> setButtonEnable(bool))
+                        .subscribe());
     }
 
     private boolean setButtonEnable(boolean bool) {
@@ -53,8 +57,20 @@ public class UIActivity extends AppCompatActivity {
         return bool;
     }
 
-    private void doNameValidation(String name) {
-        if (!isValidName(name)) binding.nameInput.setError("Name shouldn't be empty");
+    private boolean doValidation(String name, String email) {
+        return doNameValidation(name) & doEmailValidation(email);
+    }
+
+    private boolean doNameValidation(String name) {
+        boolean isValid = isValidName(name);
+        if (!isValid) binding.nameInput.setError("Name shouldn't be empty");
+        return isValid;
+    }
+
+    private boolean doEmailValidation(String email) {
+        boolean isValid = isValidEmail(email);
+        if (!isValid) binding.emailInput.setError("Email shouldn't be empty");
+        return isValid;
     }
 
     private boolean isValidName(String name) {
@@ -63,10 +79,6 @@ public class UIActivity extends AppCompatActivity {
 
     private boolean isValidEmail(String email) {
         return !TextUtils.isEmpty(email) && email.contains("@") && email.contains(".");
-    }
-
-    private void doEmailValidation(String email) {
-        if (!isValidEmail(email)) binding.emailInput.setError("Email shouldn't be empty");
     }
 
     @Override
