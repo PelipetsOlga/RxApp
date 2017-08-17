@@ -6,9 +6,12 @@ import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatSpinner;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
@@ -28,6 +31,7 @@ public class UIActivity extends AppCompatActivity {
     Observable<String> nameEmitter;
     Observable<String> emailEmitter;
     Observable<Boolean> sexEmitter;
+    Observable<Integer> dayEmitter;
     CompositeDisposable compositeDisposable;
     ActivityUiBinding binding;
     ScreenModel screenModel;
@@ -37,12 +41,13 @@ public class UIActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_ui);
-        screenModel = new ScreenModel();
+        screenModel = new ScreenModel(getResources().getStringArray(R.array.days));
         binding.setModel(screenModel);
 
         nameEmitter = getTextWatcherObservable(binding.nameInput);
         emailEmitter = getTextWatcherObservable(binding.emailInput);
         sexEmitter = getOnRadioGroupCheckedChangedObservable(binding.radioGroup);
+        dayEmitter = getOnSpinnerSelectedValueChangedObservable(binding.spinner);
 
     }
 
@@ -54,8 +59,9 @@ public class UIActivity extends AppCompatActivity {
                 Observable.combineLatest(nameEmitter,
                         emailEmitter
 //                                .debounce(500, TimeUnit.MILLISECONDS)// it's cause of CalledFromWrongThreadException
-                        ,sexEmitter
-                        ,(x, y, bool) -> doValidation(x, y, bool))
+                        , sexEmitter
+                        , dayEmitter
+                        , (x, y, bool, integer) -> doValidation(x, y, bool, integer))
                         .map(bool -> setButtonEnable(bool))
                         .filter(bool -> search(bool))
                         .subscribe());
@@ -66,8 +72,8 @@ public class UIActivity extends AppCompatActivity {
         return bool;
     }
 
-    private boolean doValidation(String name, String email, Boolean bool) {
-        return doNameValidation(name) & doEmailValidation(email);
+    private boolean doValidation(String name, String email, Boolean bool, Integer position) {
+        return doNameValidation(name) & doEmailValidation(email) & doDaysValidation(position);
     }
 
     private boolean doNameValidation(String name) {
@@ -88,6 +94,10 @@ public class UIActivity extends AppCompatActivity {
 
     private boolean isValidEmail(String email) {
         return !TextUtils.isEmpty(email) && email.contains("@") && email.contains(".");
+    }
+
+    private boolean doDaysValidation(Integer position) {
+        return position != 0;
     }
 
     private boolean search(boolean bool) {
@@ -152,4 +162,26 @@ public class UIActivity extends AppCompatActivity {
 
         return subject;
     }
+
+    public Observable<Integer> getOnSpinnerSelectedValueChangedObservable(@NonNull final AppCompatSpinner spinner) {
+
+        final PublishSubject<Integer> subject = PublishSubject.create();
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                screenModel.day.set(screenModel.days.get(position));
+                subject.onNext(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        return subject;
+    }
+
+
 }

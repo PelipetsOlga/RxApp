@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">RxApp</string>
+
+    <string-array name="days">
+        <item>none</item>
+        <item>Monday</item>
+        <item>Thuesday</item>
+        <item>Wednesday</item>
+        <item>Friday</item>
+    </string-array>
 </resources>
