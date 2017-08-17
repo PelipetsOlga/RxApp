@@ -12,8 +12,6 @@ import android.widget.EditText;
 
 import com.example.opelipets.rxapp.databinding.ActivityUiBinding;
 
-import org.reactivestreams.Subscription;
-
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.subjects.PublishSubject;
@@ -44,14 +42,30 @@ public class UIActivity extends AppCompatActivity {
         compositeDisposable = new CompositeDisposable();
         compositeDisposable.add(nameEmitter.subscribe(name -> doNameValidation(name)));
         compositeDisposable.add(emailEmitter.subscribe(email -> doEmailValidation(email)));
+        Observable<Boolean> btnStateEmitter= Observable.combineLatest(nameEmitter,emailEmitter,
+                (x, y)->isValidName(x)&&isValidEmail(y));
+        compositeDisposable.add(btnStateEmitter.map(bool -> setButtonEnable(bool)).subscribe());
+    }
+
+    private boolean setButtonEnable(boolean bool){
+        binding.btnOk.setEnabled(bool);
+        return bool;
     }
 
     private void doNameValidation(String name) {
-        if (TextUtils.isEmpty(name))binding.nameInput.setError("Name shouldn't be empty");
+        if (isValidName(name))binding.nameInput.setError("Name shouldn't be empty");
+    }
+
+    private boolean isValidName(String name) {
+        return TextUtils.isEmpty(name);
+    }
+
+    private boolean isValidEmail(String email) {
+        return TextUtils.isEmpty(email);
     }
 
     private void doEmailValidation(String email) {
-        if (TextUtils.isEmpty(email))binding.emailInput.setError("Email shouldn't be empty");
+        if (isValidEmail(email))binding.emailInput.setError("Email shouldn't be empty");
     }
 
     @Override
