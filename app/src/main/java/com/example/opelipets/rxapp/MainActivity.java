@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.btn_multithreading).setOnClickListener(v -> openMultiThreadExample());
         findViewById(R.id.btn_ui).setOnClickListener(v -> openUIExample());
+        findViewById(R.id.btn_http).setOnClickListener(v -> openHTTPExample());
     }
 
     private void openMultiThreadExample() {
@@ -24,5 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void openUIExample() {
         startActivity(new Intent(MainActivity.this, UIActivity.class));
+    }
+
+    private void openHTTPExample() {
+        startActivity(new Intent(MainActivity.this, HttpActivity.class));
     }
 }
