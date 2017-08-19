@@ -20,6 +20,12 @@
         android:id="@+id/btn_http"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="HTTP" />
+        android:text="Retrofit" />
+
+    <Button
+        android:id="@+id/btn_http_rx"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Retrofit + Rx" />
 
 </LinearLayout>

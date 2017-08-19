@@ -1,11 +1,10 @@
-package com.example.opelipets.rxapp;
+package com.example.opelipets.rxapp.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
+
+import com.example.opelipets.rxapp.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn_multithreading).setOnClickListener(v -> openMultiThreadExample());
         findViewById(R.id.btn_ui).setOnClickListener(v -> openUIExample());
         findViewById(R.id.btn_http).setOnClickListener(v -> openHTTPExample());
+        findViewById(R.id.btn_http_rx).setOnClickListener(v -> openHTTPRxExample());
     }
 
     private void openMultiThreadExample() {
@@ -29,5 +29,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void openHTTPExample() {
         startActivity(new Intent(MainActivity.this, HttpActivity.class));
+    }
+
+    private void openHTTPRxExample() {
+        startActivity(new Intent(MainActivity.this, HttpRxActivity.class));
     }
 }

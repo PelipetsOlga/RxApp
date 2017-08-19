@@ -1,8 +1,7 @@
-package com.example.opelipets.rxapp;
+package com.example.opelipets.rxapp.activities;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -15,12 +14,11 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
+import com.example.opelipets.rxapp.R;
 import com.example.opelipets.rxapp.databinding.ActivityUiBinding;
-
-import java.util.concurrent.TimeUnit;
+import com.example.opelipets.rxapp.viewmodel.ScreenModel;
 
 import io.reactivex.Observable;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;

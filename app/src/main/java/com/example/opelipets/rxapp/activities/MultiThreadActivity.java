@@ -1,8 +1,10 @@
-package com.example.opelipets.rxapp;
+package com.example.opelipets.rxapp.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import com.example.opelipets.rxapp.R;
 
 import java.util.Calendar;
 

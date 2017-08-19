@@ -6,7 +6,7 @@
 
         <variable
             name="model"
-            type="com.example.opelipets.rxapp.ScreenModel" />
+            type="com.example.opelipets.rxapp.viewmodel.ScreenModel" />
     </data>
 
     <LinearLayout

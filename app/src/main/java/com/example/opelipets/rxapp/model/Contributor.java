@@ -1,4 +1,4 @@
-package com.example.opelipets.rxapp;
+package com.example.opelipets.rxapp.model;
 
 public class Contributor {
 

@@ -1,4 +1,4 @@
-package com.example.opelipets.rxapp;
+package com.example.opelipets.rxapp.viewmodel;
 
 import android.databinding.BaseObservable;
 import android.databinding.ObservableArrayList;
@@ -19,7 +19,7 @@ public class ScreenModel extends BaseObservable {
     public ObservableField<String> day = new ObservableField<>("");
     public ObservableArrayList<String> days = new ObservableArrayList<>();
 
-    ScreenModel(String[] daysArray) {
+    public ScreenModel(String[] daysArray) {
         for (String d : daysArray) {
             days.add(d);
         }
