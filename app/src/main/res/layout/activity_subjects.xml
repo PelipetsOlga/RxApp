@@ -5,33 +5,43 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/btn_multithreading"
+        android:id="@+id/btn_clear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Multithreding" />
+        android:text="Clear" />
 
     <Button
-        android:id="@+id/btn_ui"
+        android:id="@+id/btn_subject_publish"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="UI" />
+        android:text="Publish Subject" />
 
     <Button
-        android:id="@+id/btn_http"
+        android:id="@+id/btn_subject_replay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Retrofit" />
+        android:text="Replay Subject" />
 
     <Button
-        android:id="@+id/btn_http_rx"
+        android:id="@+id/btn_subject_behavior"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Retrofit + Rx" />
+        android:text="Behavior Subject" />
 
     <Button
-        android:id="@+id/btn_subjects"
+        android:id="@+id/btn_subject_asynk"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Subjects" />
+        android:text="Async Subject" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
 
 </LinearLayout>

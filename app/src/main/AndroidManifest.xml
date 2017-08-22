@@ -30,6 +30,9 @@
         <activity
             android:name=".activities.HttpRxActivity"
             android:label="Http+Rx" />
+        <activity
+            android:name=".SubjectsActivity"
+            android:label="Subjects" />
     </application>
 
 </manifest>

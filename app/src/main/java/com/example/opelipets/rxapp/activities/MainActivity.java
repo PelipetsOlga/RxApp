@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.opelipets.rxapp.R;
+import com.example.opelipets.rxapp.SubjectsActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn_ui).setOnClickListener(v -> openUIExample());
         findViewById(R.id.btn_http).setOnClickListener(v -> openHTTPExample());
         findViewById(R.id.btn_http_rx).setOnClickListener(v -> openHTTPRxExample());
+        findViewById(R.id.btn_subjects).setOnClickListener(v -> openSubjectsExample());
     }
 
     private void openMultiThreadExample() {
@@ -33,5 +35,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void openHTTPRxExample() {
         startActivity(new Intent(MainActivity.this, HttpRxActivity.class));
+    }
+
+    private void openSubjectsExample() {
+        startActivity(new Intent(MainActivity.this, SubjectsActivity.class));
     }
 }
