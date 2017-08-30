@@ -33,6 +33,7 @@
         <activity
             android:name=".SubjectsActivity"
             android:label="Subjects" />
+        <activity android:name=".activities.FirstExampleActivity"></activity>
     </application>
 
 </manifest>

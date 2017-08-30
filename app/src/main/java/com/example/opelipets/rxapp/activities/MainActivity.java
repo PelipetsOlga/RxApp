@@ -14,11 +14,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        findViewById(R.id.btn_first).setOnClickListener(v -> openFirstExample());
         findViewById(R.id.btn_multithreading).setOnClickListener(v -> openMultiThreadExample());
         findViewById(R.id.btn_ui).setOnClickListener(v -> openUIExample());
         findViewById(R.id.btn_http).setOnClickListener(v -> openHTTPExample());
         findViewById(R.id.btn_http_rx).setOnClickListener(v -> openHTTPRxExample());
         findViewById(R.id.btn_subjects).setOnClickListener(v -> openSubjectsExample());
+    }
+
+    private void openFirstExample() {
+        startActivity(new Intent(MainActivity.this, FirstExampleActivity.class));
     }
 
     private void openMultiThreadExample() {
