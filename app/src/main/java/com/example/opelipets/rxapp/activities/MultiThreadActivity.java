@@ -27,8 +27,8 @@ public class MultiThreadActivity extends AppCompatActivity {
         findViewById(R.id.btn_4).setOnClickListener(v -> execute4());
     }
 
-    private void print(int i) {
-        Log.d("RxApp", Thread.currentThread().getName() + "   " + i + "\n");
+    private void print(Object i) {
+        Log.d("RxApp", Thread.currentThread().getName() + "   " + i.toString() + "\n");
     }
 
     private void startTimer() {
@@ -45,6 +45,20 @@ public class MultiThreadActivity extends AppCompatActivity {
         startTimer();
         Observable.range(1, 10)
                 .subscribe(i -> print(i));
+        stopTimer();
+    }
+
+    private void execute11() {
+        startTimer();
+        Observable.create(subscriber -> {
+            subscriber.onNext(1);
+            subscriber.onNext(2);
+            subscriber.onNext(3);
+            subscriber.onNext(4);
+            subscriber.onError(new NullPointerException("Oops, we've got NPE"));
+           // subscriber.onComplete();
+        })
+                .subscribe(i -> print(i), e -> print(e), ()-> print("complete"));
         stopTimer();
     }
 
