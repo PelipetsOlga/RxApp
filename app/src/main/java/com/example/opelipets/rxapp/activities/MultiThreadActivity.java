@@ -55,8 +55,8 @@ public class MultiThreadActivity extends AppCompatActivity {
             subscriber.onNext(2);
             subscriber.onNext(3);
             subscriber.onNext(4);
-            subscriber.onError(new NullPointerException("Oops, we've got NPE"));
-           // subscriber.onComplete();
+//            subscriber.onError(new NullPointerException("Oops, we've got NPE"));
+            subscriber.onComplete();
         })
                 .subscribe(i -> print(i), e -> print(e), ()-> print("complete"));
         stopTimer();
